@@ -1,5 +1,10 @@
+/////////////////////////
 // Brick Breaker
+// 11/29/18
 // by mason caird & benjamin greenwood
+// CS 172 final
+/////////////////////////
+
 
 #include <iostream>
 #include <string>
