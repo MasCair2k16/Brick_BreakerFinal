@@ -1,0 +1,4 @@
+Bricks hit: 1
+Bricks hit: 2
+Bricks hit: 3
+Bricks hit: 4
