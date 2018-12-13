@@ -1,9 +1,11 @@
+//Brick Breaker
+//by mason caird & Benjamin Greenwood
+
 #include"gameObjects.h"
 #include"fstream"
 using namespace std;
 
-// Add a time for input and output
-// Add bounces from still boxes
+// 
 
 bool collide(COORD ballPos, COORD blockPos)   //compares two objects
 {
@@ -52,7 +54,7 @@ void overlap(vector<GameObject*> &go ) { //Reassures all stillboxes are not over
     } 
 }
 
-int outputtxt(int blocksHit, int highScore) {
+int outputtxt(int blocksHit) { // This will output how many blocks were hit on a txt file.
 
     ofstream output; // File stream object and will be used to open the text file
     output.open("BrickBreakerLog.txt", ios::app);
@@ -71,9 +73,9 @@ int outputtxt(int blocksHit, int highScore) {
 int main() 
 {
     srand(unsigned(time(NULL)));
-    vector<GameObject*> gObjects;
-    int brickshit = 0, highScore = 0;
-    remove("BrickBreakerLog.txt");
+    vector<GameObject*> gObjects; // pointer variable vector
+    int brickshit = 0; // variable is used for outputTxt function
+    remove("BrickBreakerLog.txt"); 
     
     // Get handles to STDIN and STDOUT. 
     hStdin = GetStdHandle(STD_INPUT_HANDLE); 
@@ -91,7 +93,7 @@ int main()
     {
         gObjects.push_back(new stillBox());
     }
-    overlap(gObjects);
+    overlap(gObjects); // Checks if the stillboxes are overlapping each other
     int key = 0;
     int blocksHit = 0;
 
@@ -107,7 +109,7 @@ int main()
                 {   
                     brickshit++;
 
-                    outputtxt(brickshit, highScore);
+                    outputtxt(brickshit);
                     if (typeid(*gObjects[i]) == typeid(stillBox) && typeid(*gObjects[j]) == typeid(Ball) || //checks to see if objects were stillbox & ball
                     typeid(*gObjects[j]) == typeid(stillBox) && typeid(*gObjects[i]) == typeid(Ball))    
                     {  
@@ -136,7 +138,7 @@ int main()
                 }
             }
         dynamic_cast<userBox *>(gObjects[0])->move(key);    // i know the first game object is the userbox, so call the special move function
-        gObjects[i]->draw();
+        gObjects[i]->draw(); // These are called to draw and move the game object after each while loop.
         gObjects[i]->move();
         }
 
