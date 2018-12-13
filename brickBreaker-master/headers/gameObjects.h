@@ -48,14 +48,16 @@ class GameObject { // This class will define the basic structures of each object
             vx = 0.0;
             vy = 0.0;
         }
+	
+	// Polymorphism was the best way to get the objects drawn and going.
          virtual void draw() {	SetConsoleCursorPosition(hStdout,pos);} // This will print the characters to the screen.
 		// The function inside sets the character to microsoft standard
 
-         COORD get_pos() {
+         COORD get_pos() { // Return the objects positioning
             return pos;
          }
 
-         virtual void move() {}
+         virtual void move() {} // This will move the objects.
 };
 
 class stillBox : public GameObject {  // this is the stillbox class that defines all its properties.
@@ -82,11 +84,13 @@ class stillBox : public GameObject {  // this is the stillbox class that defines
         {
             return stillBoxShape;
         }
+	
+	// this will draw the stillboxes. The boxes dont have move() because they need ot be still for the ball to hit.
         void draw() {
              GameObject::draw();
              cout << stillBoxShape;
         }
-        void hit()
+        void hit() // if the ball hits the box, the string will be empty.
         {
             stillBoxShape = "       ";
         }
@@ -102,7 +106,7 @@ class userBox : public GameObject {  // this is the userlbox class that defines 
             vx = 1;
             userBoxShape = "[IIIII]";
         }
-        void draw() {
+        void draw() { // draws the userbox shape
             GameObject::draw();
             cout << userBoxShape;
         }
