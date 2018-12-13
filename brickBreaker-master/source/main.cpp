@@ -1,11 +1,13 @@
-//Brick Breaker
-//by mason caird & Benjamin Greenwood
+/////////////////////////
+// Brick Breaker
+// 11/29/18
+// by mason caird & benjamin greenwood
+// CS 172 final
+/////////////////////////
 
 #include"gameObjects.h"
 #include"fstream"
 using namespace std;
-
-// 
 
 bool collide(COORD ballPos, COORD blockPos)   //compares two objects
 {
@@ -39,8 +41,8 @@ bool gameOver(vector<GameObject*> go, int& blocksHit)     // returns true if all
     return false;
 }
 
-void overlap(vector<GameObject*> &go ) { //Reassures all stillboxes are not overlapping
-    for (int i = 3; i<go.size(); i++){ 
+void overlap(vector<GameObject*> &go ) { //Reassures all stillboxes are not overlapping // Bugs to be fixed
+    for (int i = 3; i<go.size(); i++){   // the index in our vector of stillboxes starts at 2 and we use i-1 so our for loop starts at 3
         for (int j = 0; j < 7; j++)     //makes sure it doesn't overlap any of the positions
         {
             while (dynamic_cast<stillBox *>(go[i-1])->getX()+j == dynamic_cast<stillBox *>(go[i])->getX() ||
@@ -59,8 +61,8 @@ int outputtxt(int blocksHit) { // This will output how many blocks were hit on a
     ofstream output; // File stream object and will be used to open the text file
     output.open("BrickBreakerLog.txt", ios::app);
     
-    if(output.fail()) {
-        cout << "Oops, can't open file(s)" << endl;
+    if(output.fail()) { // if the files fails to open, this shows
+        cout << "Oops, can't open file" << endl;
         return 0;
     }
     output << "Bricks hit: " << blocksHit << endl;
@@ -72,10 +74,10 @@ int outputtxt(int blocksHit) { // This will output how many blocks were hit on a
 
 int main() 
 {
-    srand(unsigned(time(NULL)));
+    srand(unsigned(time(NULL))); // Ranadom generator
     vector<GameObject*> gObjects; // pointer variable vector
     int brickshit = 0; // variable is used for outputTxt function
-    remove("BrickBreakerLog.txt"); 
+    remove("BrickBreakerLog.txt"); // Removes the old txt file to star new for each game.
     
     // Get handles to STDIN and STDOUT. 
     hStdin = GetStdHandle(STD_INPUT_HANDLE); 
@@ -87,29 +89,26 @@ int main()
         return 1;
     }
     
-    gObjects.push_back(new userBox());
-    gObjects.push_back(new Ball('O'));
-    for (int i = 0; i < 10; i++)
+    gObjects.push_back(new userBox()); // placed a user box
+    gObjects.push_back(new Ball('O')); // placed ball with a character
+    for (int i = 0; i < 10; i++) // placed 11 random stillboxes.
     {
         gObjects.push_back(new stillBox());
     }
     overlap(gObjects); // Checks if the stillboxes are overlapping each other
     int key = 0;
-    int blocksHit = 0;
 
-    while (gameOver(gObjects, blocksHit) != true) //makes sure the game isn't over 
+    while (gameOver(gObjects, brickshit) != true) //makes sure the game isn't over 
     {  
         for (int i = 0; i < gObjects.size(); i++)       // updates game objects
         {   
-        //cout << i << endl;
-        //cin >> key;
             for (int j = i+1; j < gObjects.size(); j++ )    // checks for collisons
             {
                 if (collide(gObjects[i]->get_pos(), gObjects[j]->get_pos()) == true)    // if the two objects we are looking at collide
                 {   
-                    brickshit++;
+                    brickshit++; // Increments
 
-                    outputtxt(brickshit);
+                    outputtxt(brickshit); // prints to file
                     if (typeid(*gObjects[i]) == typeid(stillBox) && typeid(*gObjects[j]) == typeid(Ball) || //checks to see if objects were stillbox & ball
                     typeid(*gObjects[j]) == typeid(stillBox) && typeid(*gObjects[i]) == typeid(Ball))    
                     {  
@@ -141,8 +140,8 @@ int main()
         gObjects[i]->draw(); // These are called to draw and move the game object after each while loop.
         gObjects[i]->move();
         }
-
- 		for ( int x=0; x < 25; x++ ) {
+		// not our code. https://www.geeksforgeeks.org/kbhit-c-language/
+ 		for ( int x=0; x < 25; x++ ) {  
 		   /* Use _getch to throw key away. */
 			if ( _kbhit() ) {
 				key =  _getch();
